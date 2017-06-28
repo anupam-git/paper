@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+const path = require("path");
+process.env.NODE_CONFIG_DIR = path.join(__dirname, "..", "config");
+
 const cron = require('node-cron');
 const {RandomWallpaperCLI} = require(__dirname+"/../");
 const {SettingsManager} = require(__dirname+"/../src");

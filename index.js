@@ -1,3 +1,6 @@
+const path = require("path");
+process.env.NODE_CONFIG_DIR = path.join(__dirname, "config");
+
 const {RandomWallpaper} = require(__dirname+"/src/");
 const {WallpaperSetter} = require(__dirname+"/src/");
 const {SettingsManager} = require(__dirname+"/src");
