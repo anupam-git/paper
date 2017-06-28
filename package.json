@@ -18,6 +18,7 @@
   "dependencies": {
     "config": "^1.26.1",
     "fs-extra": "^3.0.1",
+    "node-cron": "^1.2.0",
     "request": "^2.81.0",
     "wallpaper": "^2.1.1"
   }
