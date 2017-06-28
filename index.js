@@ -8,7 +8,7 @@ new RandomWallpaper(1920, 1080)
     .then((imagePath) => {
         console.log("\tWallpaper Downloaded Successfully...");
 
-        console.log("\n* Setting Wallpeper");
+        console.log("\n* Setting Wallpaper");
 
         WallpaperSetter
             .set(imagePath)
