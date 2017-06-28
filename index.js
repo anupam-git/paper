@@ -92,7 +92,7 @@ Arguments:
                                       Example :   --tags=nature
                                                   --tags=water,mountain
 
-  --refresh-rate=N[M|H]               Specify Refresh rate in minutes of hours
+  --refresh-rate=N[M|H]               Specify Refresh rate in minutes or hours
                                       Example :   --refresh-rate=5M     Will refresh every 5 minutes
                                                   --refresh-rate=2H     Will refresh every 2 hours
                                                 
