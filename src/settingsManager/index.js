@@ -30,8 +30,12 @@ if (fs.existsSync(settingsPath)) {
     settings = defaultSettings;
 }
 
-function get(key) {
-    return settings[key];
+function get(key, getDefaultValue) {
+    if (getDefaultValue) {
+        return defaultSettings[key];
+    } else {
+        return settings[key];
+    }
 }
 
 function set(key, value) {
