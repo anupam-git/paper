@@ -1,6 +1,6 @@
 {
   "name": "random-wallpaper-cli",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A CLI Tool to set a random wallpaper from Unsplash.com",
   "main": "index.js",
   "scripts": {
