@@ -3,8 +3,8 @@ const {WallpaperSetter} = require(__dirname+"/src/");
 const {SettingsManager} = require(__dirname+"/src");
 
 let isShowUsage = false;
-let resolution = SettingsManager.get("resolution", true);
-let tags = SettingsManager.get("tags", true);
+let resolution = SettingsManager.get("resolution");
+let tags = SettingsManager.get("tags");
 let resolutionTestRegex = /\d+x\d+/;
 let tagsTestRegex = /^\w+(,\w+)*$/;
 
@@ -14,10 +14,12 @@ process.argv.forEach(function (val, index, array) {
         let propKey = prop[0],
             propVal = prop[1];
 
+        console.log
+
 
         switch (propKey) {
             case "--resolution":
-                if (resolutionTestRegex.test(propVal)) {
+                if (propVal != undefined && resolutionTestRegex.test(propVal)) {
                     resolution = propVal;
                 } else {
                     isShowUsage = true
@@ -26,15 +28,16 @@ process.argv.forEach(function (val, index, array) {
                 break;
 
             case "--tags":
-                if (tagsTestRegex.test(propVal)) {
+                if (propVal != undefined && tagsTestRegex.test(propVal)) {
                     tags = propVal;
                 } else {
                     isShowUsage = true
                 }
                 
-                break;            
+                break;
 
             case "--help":
+            default:
                 isShowUsage = true;
 
                 break;
