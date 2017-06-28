@@ -5,23 +5,14 @@ const path = require("path");
 const os = require("os");
 
 class RandomWallpaper {    
-    constructor(width, height, terms) {
-        this._resolution = "";
-
-        if (width != null || height != null || width != undefined || height != undefined) {
-            this._resolution = `${width}x${height}`;
-        }
-    }
-
-    get resolution() {
-        let res = this._resolution.split("x");
-
-        return [~~res[0], ~~res[1]];
+    constructor(resolution, tags) {
+        this.resolution = resolution;
+        this.tags = tags;
     }
 
     fetch() {
         return new Promise((resolve, reject) => {
-            const uri = config.get("randomImageBaseUrl")+"/"+this._resolution;
+            const uri = config.get("randomImageBaseUrl")+"/"+this.resolution+"/?"+this.tags;
             const imageDir = path.join(os.homedir(), config.get("cachePath"), config.get("imagesCacheFolder"));
             const imagePath = path.join(imageDir, config.get("imageFileName"));
 

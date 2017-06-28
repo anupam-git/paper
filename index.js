@@ -1,9 +1,10 @@
 const {RandomWallpaper} = require(__dirname+"/src/");
 const {WallpaperSetter} = require(__dirname+"/src/");
+const {SettingsManager} = require(__dirname+"/src");
 
 console.log("* Downloading Random Wallpaper from http://unsplash.com");
 
-new RandomWallpaper(1920, 1080)
+new RandomWallpaper(SettingsManager.get("resolution"), SettingsManager.get("tags"))
     .fetch()
     .then((imagePath) => {
         console.log("\tWallpaper Downloaded Successfully...");
