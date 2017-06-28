@@ -7,6 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
+  "bin":{
+    "random-wallpaper-cli": "bin/random-wallpaper-cli.js"
+  },
   "keywords": [
     "random",
     "wallpaper",
