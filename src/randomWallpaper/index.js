@@ -22,7 +22,7 @@ class RandomWallpaper {
     fetch() {
         return new Promise((resolve, reject) => {
             const uri = config.get("randomImageBaseUrl")+"/"+this._resolution;
-            const imageDir = path.join(os.homedir(), config.get("imageCachePath"));
+            const imageDir = path.join(os.homedir(), config.get("cachePath"), config.get("imagesCacheFolder"));
             const imagePath = path.join(imageDir, config.get("imageFileName"));
 
             request.head(uri, (err, res, body) => {
