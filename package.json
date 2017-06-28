@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
-  "bin":{
+  "bin": {
     "random-wallpaper-cli": "bin/random-wallpaper-cli.js"
   },
   "keywords": [
@@ -24,5 +24,14 @@
     "node-cron": "^1.2.0",
     "request": "^2.81.0",
     "wallpaper": "^2.1.1"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anupam-git/random-wallpaper-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/anupam-git/random-wallpaper-cli/issues"
+  },
+  "homepage": "https://github.com/anupam-git/random-wallpaper-cli#readme"
 }
