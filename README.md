@@ -1,41 +1,50 @@
-# Random Wallpaper CLI
+# Paper - A Random Wallpaper Application
 > A CLI Tool to set a random wallpaper from Unsplash.com
 
-Works on macOS, Linux, and Windows.
-
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/anupam-git/random-wallpaper-cli/master/LICENSE) [![npm version](https://badge.fury.io/js/random-wallpaper-cli.svg)](https://badge.fury.io/js/random-wallpaper-cli) [![GitHub stars](https://img.shields.io/github/stars/anupam-git/random-wallpaper-cli.svg)](https://github.com/anupam-git/random-wallpaper-cli/stargazers)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/anupam-git/paper/master/LICENSE) [![GitHub stars](https://img.shields.io/github/stars/anupam-git/paper.svg)](https://github.com/anupam-git/paper/stargazers)
 
 ## Install
 
-```
-$ npm install -g random-wallpaper-cli
-```
+TODO
 
 ## Usage
 
+Usage: paper [arguments]
 ```
-Usage: random-wallpaper-cli [arguments]
-A CLI Tool to set a random wallpaper from Unsplash.com
+Paper - A Random Wallpaper Application
 
 Arguments:
-  --resolution=widthxheight         Provide the resolution of the wallpaper to be downloaded
-                                    Default value : 1920x1080
+  --help, -h                              Print this help message
+  
+  --tags, -t [comma seperated tags]       Provide tags to filter wallpaper search results
+                                          Example       : --tags nature
+                                                          -t water,mountain
+  
+  --resolution, -r [widthxheight]         Provide the resolution of the wallpaper to be downloaded
+                                          Default value : 1920x1080
+                                          Example       : --resolution 1024x768
+                                                          -r 1920x1080
+  
+  --download, -d                          Only download the wallpaper
+                                          Example       : --download
+                                                          -d
+  
+  --dir, -D [path]                        Directory to download the wallpaper to
+                                          Default value : .cache/paper/
+                                          Example       : --dir ~/foo/bar
+                                                          -d ~/foooo/baaaar
+  
+  --save, -s                              Save the provided configuration to file
+                                          Will be used to remember user preference
+                                          Example       : --save
+                                                          -s
 
-  --tags=[comma seperated tags]     Provide tags to filter wallpaper search results
-                                    Example :   --tags=nature
-                                                --tags=water,mountain
-
-  --refresh-rate=N[M|H]             Specify Refresh rate in minutes or hours
-                                    Example :   --refresh-rate=5M    Will refresh every 5 minutes
-                                                --refresh-rate=2H    Will refresh every 2 hours
+  --refresh-rate, -R n[M|H]               Refreshes Wallpaper every 'n' Minutes or 'n' Hours
+                                          Example       :   --refresh-rate 5M # Will refresh every 5 minutes
+                                                            --R 2H            # Will refresh every 2 hours
                                                 
-Examples:
-    $> random-wallpaper-cli --help
-    $> random-wallpaper-cli
-    $> random-wallpaper-cli --resolution=1024x768
-    $> random-wallpaper-cli --resolution=1024x768 --tags=road,mountain
-    $> random-wallpaper-cli --resolution=1024x768 --tags=road,mountain --refresh-rate=30M
-    $> random-wallpaper-cli --resolution=1920x1080 --refresh-rate=1H
+Example:
+    $> paper --tags road,mountain --resolution 1024x768 --refresh-rate 30M --save
 ```
 
 ## License
