@@ -2,14 +2,19 @@
 #define PARSER_ARGUMENTPARSER_H
 
 #include <QCommandLineParser>
+#include <QStringList>
 
 class ArgumentParser {
  private:
   QCommandLineParser* parser;
+  void parseArguments();
+  QCommandLineOption *downloadOption, *dirOption, *helpOption,
+      *resolutionOption, *refreshRateOption, *saveOption, *tagsOption,
+      *versionOption;
 
  public:
   ArgumentParser();
-  QCommandLineParser* getParser();
+  void process(QStringList arguments);
 };
 
 #endif

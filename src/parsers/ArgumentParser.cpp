@@ -1,39 +1,68 @@
+#include <QStringList>
+#include <QCommandLineOption>
+
 #include "ArgumentParser.h"
 
 ArgumentParser::ArgumentParser() {
   this->parser = new QCommandLineParser();
   this->parser->setApplicationDescription(PROJECT_DESCRIPTION);
-  this->parser->addHelpOption();
-  this->parser->addOptions(
-      {{{"d", "download"}, "Only download the wallpaper"},
-       {{"D", "dir"},
-        "Directory to download the wallpaper to"
-        "\nDefault value : .cache/paper/"
-        "\nExample       : --dir ~/foo/bar"
-        "\n                 -d ~/foooo/baaaar"},
-       {{"r", "resolution"},
-        "Provide the resolution of the wallpaper to be downloaded"
-        "\nDefault value : 1920x1080"
-        "\nExample       : --resolution 1024x768"
-        "\n                 -r 1920x1080",
-        "[widthxheight"},
-       {{"R", "refresh-rate"},
-        "Refreshes Wallpaper every 'n' Minutes or 'n' Hours"
-        "\nDefault value : 1920x1080"
-        "\nExample       : --refresh-rate 5 M"
-        "\n                 -R 2 H",
-        "n M|H"},
-       {{"s", "save"},
-        "Save the provided configuration to file"
-        "\nWill be used to remember user preference"},
-       {{"t", "tags"},
-        "Provide tags to filter wallpaper search results"
-        "\nExample       : -t water,mountain"
-        "\n                 --tags nature",
-        "comma seperated tags]"}});
-  this->parser->addVersionOption();
+  this->downloadOption = new QCommandLineOption(
+      {"d", "download"}, "Only download the wallpaper\n");
+  this->dirOption =
+      new QCommandLineOption({"D", "dir"},
+                             "Directory to download the wallpaper"
+                             "\nDefault dir        : .cache/paper/"
+                             "\nExample            : --dir ~/foo/bar"
+                             "\n                      -D ~/foooo/baaaar\n");
+  this->helpOption =
+      new QCommandLineOption({"h", "help"}, "Displays this help\n");
+  this->resolutionOption =
+      new QCommandLineOption({"r", "resolution"},
+                             "Resolution of the wallpaper to be downloaded"
+                             "\nDefault resolution : 1920x1080"
+                             "\nExample            : --resolution 1024x768"
+                             "\n                      -r 1920x1080\n",
+                             "widthxheight");
+  this->refreshRateOption = new QCommandLineOption(
+      {"R", "refresh-rate"},
+      "Refreshes Wallpaper every 'n' Minutes or 'n' Hours"
+      "\nExample            : --refresh-rate 5M"
+      "\n                      -R 2H\n",
+      "n[M|H]");
+  this->saveOption =
+      new QCommandLineOption({"s", "save"},
+                             "Save the provided configuration to file"
+                             "\nWill be used to remember user preference\n");
+  this->tagsOption =
+      new QCommandLineOption({"t", "tags"},
+                             "Provide tags to filter wallpaper search results"
+                             "\nExample            : --tags nature"
+                             "\n                      -t water,mountain\n",
+                             "comma seperated tags");
+  this->versionOption = new QCommandLineOption(
+      {"v", "version"}, "Displays version information\n");
+
+  this->parser->addOption(*this->downloadOption);
+  this->parser->addOption(*this->dirOption);
+  this->parser->addOption(*this->helpOption);
+  this->parser->addOption(*this->resolutionOption);
+  this->parser->addOption(*this->refreshRateOption);
+  this->parser->addOption(*this->saveOption);
+  this->parser->addOption(*this->tagsOption);
+  this->parser->addOption(*this->versionOption);
 }
 
-QCommandLineParser* ArgumentParser::getParser() {
-  return this->parser;
+void ArgumentParser::process(QStringList arguments) {
+  this->parser->parse(arguments);
+  this->parseArguments();
+}
+
+void ArgumentParser::parseArguments() {
+  if (this->parser->isSet(*this->helpOption)) {
+    this->parser->showHelp();
+  }
+
+  if (this->parser->isSet(*this->versionOption)) {
+    this->parser->showVersion();
+  }
 }

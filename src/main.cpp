@@ -9,7 +9,7 @@ int main(int argc, char* argv[]) {
   QCoreApplication::setApplicationVersion(PROJECT_VERSION);
 
   ArgumentParser* argumentParser = new ArgumentParser();
-  argumentParser->getParser()->process(app);
+  argumentParser->process(app.arguments());
 
   return app.exec();
 }
