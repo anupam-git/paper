@@ -9,9 +9,8 @@ TODO
 
 ## Usage
 
-Usage: paper [arguments]
 ```
-Paper - A Random Wallpaper Application
+Usage: paper [arguments]
 
 Arguments:
   --help, -h                              Print this help message
@@ -40,11 +39,11 @@ Arguments:
                                                           -s
 
   --refresh-rate, -R n[M|H]               Refreshes Wallpaper every 'n' Minutes or 'n' Hours
-                                          Example       :   --refresh-rate 5M # Will refresh every 5 minutes
-                                                            --R 2H            # Will refresh every 2 hours
+                                          Example       : --refresh-rate 5M # Will refresh every 5 minutes
+                                                          --R 2H            # Will refresh every 2 hours
                                                 
 Example:
-    $> paper --tags road,mountain --resolution 1024x768 --refresh-rate 30M --save
+  $> paper --tags road,mountain --resolution 1024x768 --refresh-rate 30M --save
 ```
 
 ## License
