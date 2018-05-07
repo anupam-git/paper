@@ -1,7 +1,0 @@
-{
-    "randomImageBaseUrl": "https://source.unsplash.com/random/",
-    "cachePath": ".random-wallpaper-cli/",
-    "imagesCacheFolder": "images",
-    "imageFileName": "wallpaper.jpg",
-    "settingsFileName": "settings.json"
-}
