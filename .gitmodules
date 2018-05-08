@@ -1,3 +1,0 @@
-[submodule "lib/cpr"]
-	path = lib/cpr
-	url = git@github.com:whoshuu/cpr.git
