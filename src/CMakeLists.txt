@@ -3,14 +3,17 @@ find_package(Qt5Core)
 set(
     INTERACTORS
 
-    interactors/FetchWallpaper.h
-    interactors/FetchWallpaper.cpp
+    interactors/Interactor.h
+    interactors/Interactor.cpp
 
-    interactors/RunAtInterval.h
-    interactors/RunAtInterval.cpp
+    interactors/FetchWallpaperInteractor.h
+    interactors/FetchWallpaperInteractor.cpp
 
-    interactors/SetWallpaper.h
-    interactors/SetWallpaper.cpp
+    interactors/RunAtIntervalInteractor.h
+    interactors/RunAtIntervalInteractor.cpp
+
+    interactors/SetWallpaperInteractor.h
+    interactors/SetWallpaperInteractor.cpp
 )
 
 set(
@@ -50,6 +53,5 @@ add_executable(
 target_link_libraries(
     ${PROJECT_NAME}
     Qt5::Core
-    ${CPR_LIBRARIES}
 )
 
