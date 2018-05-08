@@ -2,6 +2,7 @@
 #include <QCommandLineOption>
 
 #include "ArgumentParser.h"
+#include "interactors/FetchWallpaperInteractor.h"
 
 ArgumentParser::ArgumentParser() {
   this->parser = new QCommandLineParser();
@@ -50,6 +51,8 @@ ArgumentParser::ArgumentParser() {
   this->parser->addOption(*this->saveOption);
   this->parser->addOption(*this->tagsOption);
   this->parser->addOption(*this->versionOption);
+
+  this->fetchWallpaperInteractor = new FetchWallpaperInteractor();
 }
 
 void ArgumentParser::process(QStringList arguments) {
@@ -58,10 +61,27 @@ void ArgumentParser::process(QStringList arguments) {
 }
 
 void ArgumentParser::parseArguments() {
+  if (this->parser->isSet(*this->downloadOption)) {
+    this->fetchWallpaperInteractor->execute();
+  }
+  if (this->parser->isSet(*this->dirOption)) {
+    // TODO
+  }
   if (this->parser->isSet(*this->helpOption)) {
     this->parser->showHelp();
   }
-
+  if (this->parser->isSet(*this->resolutionOption)) {
+    // TODO
+  }
+  if (this->parser->isSet(*this->refreshRateOption)) {
+    // TODO
+  }
+  if (this->parser->isSet(*this->saveOption)) {
+    // TODO
+  }
+  if (this->parser->isSet(*this->tagsOption)) {
+    // TODO
+  }
   if (this->parser->isSet(*this->versionOption)) {
     this->parser->showVersion();
   }

@@ -4,8 +4,11 @@
 #include <QCommandLineParser>
 #include <QStringList>
 
+#include "interactors/FetchWallpaperInteractor.h"
+
 class ArgumentParser {
  private:
+  FetchWallpaperInteractor* fetchWallpaperInteractor;
   QCommandLineParser* parser;
   void parseArguments();
   QCommandLineOption *downloadOption, *dirOption, *helpOption,
