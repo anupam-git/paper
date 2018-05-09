@@ -1,8 +1,7 @@
-#include <QStringList>
-#include <QCommandLineOption>
-
 #include "ArgumentParser.h"
 #include "interactors/FetchWallpaperInteractor.h"
+
+#include <QCommandLineOption>
 
 ArgumentParser::ArgumentParser() {
   this->parser = new QCommandLineParser();

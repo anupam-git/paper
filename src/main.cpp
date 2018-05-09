@@ -1,7 +1,7 @@
+#include "parsers/ArgumentParser.h"
+
 #include <QCoreApplication>
 #include <QDebug>
-
-#include <parsers/ArgumentParser.h>
 
 int main(int argc, char* argv[]) {
   QCoreApplication app(argc, argv);

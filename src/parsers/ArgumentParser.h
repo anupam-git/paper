@@ -1,10 +1,10 @@
 #ifndef PARSER_ARGUMENTPARSER_H
 #define PARSER_ARGUMENTPARSER_H
 
+#include "interactors/FetchWallpaperInteractor.h"
+
 #include <QCommandLineParser>
 #include <QStringList>
-
-#include "interactors/FetchWallpaperInteractor.h"
 
 class ArgumentParser {
  private:

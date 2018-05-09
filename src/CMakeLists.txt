@@ -1,4 +1,12 @@
-find_package(Qt5Core)
+find_package(
+    Qt5
+
+    COMPONENTS
+        Core
+        Network
+
+    REQUIRED
+)
 
 set(
     INTERACTORS
@@ -53,5 +61,6 @@ add_executable(
 target_link_libraries(
     ${PROJECT_NAME}
     Qt5::Core
+    Qt5::Network
 )
 
