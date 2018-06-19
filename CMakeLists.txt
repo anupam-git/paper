@@ -7,9 +7,12 @@ project(
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(FeatureSummary)
 
+add_definitions(-DORGANISATION_NAME="Paper")
 add_definitions(-DPROJECT_NAME="${PROJECT_NAME}")
 add_definitions(-DPROJECT_VERSION="${PROJECT_VERSION}")
 add_definitions(-DPROJECT_DESCRIPTION="\\nPaper - A Random Wallpaper Application\\nA CLI Tool to set a random wallpaper from Unsplash.com")

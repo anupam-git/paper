@@ -33,9 +33,6 @@ set(
     helpers/DownloadHelper.h
     helpers/DownloadHelper.cpp
 
-    helpers/FileHelper.h
-    helpers/FileHelper.cpp
-
     helpers/ShellHelper.h
     helpers/ShellHelper.cpp
 )
@@ -45,9 +42,13 @@ set(
 
     parsers/ArgumentParser.h
     parsers/ArgumentParser.cpp
+)
 
-    parsers/ConfigParser.h
-    parsers/ConfigParser.cpp
+set(
+    UTILS
+
+    utils/CommonUtils.h
+    utils/CommonUtils.cpp
 )
 
 add_executable(
@@ -57,6 +58,7 @@ add_executable(
     ${INTERACTORS}
     ${HELPERS}
     ${PARSERS}
+    ${UTILS}
 )
 target_link_libraries(
     ${PROJECT_NAME}

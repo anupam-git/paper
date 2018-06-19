@@ -1,23 +1,52 @@
 #include "FetchWallpaperInteractor.h"
-#include "../helpers/DownloadHelper.h"
+#include "helpers/DownloadHelper.h"
+#include "helpers/ConfigHelper.h"
 
-#include <QDebug>
+#include <QCoreApplication>
 #include <QFile>
+#include <QUuid>
 
-FetchWallpaperInteractor::FetchWallpaperInteractor() {}
-
-void FetchWallpaperInteractor::execute() {
-  QUrl imageUrl("https://source.unsplash.com/random/1920x1080/?nature");
-  this->image = new DownloadHelper(imageUrl);
-
-  connect(this->image, SIGNAL(downloaded()), this, SLOT(loadImage()));
+FetchWallpaperInteractor::FetchWallpaperInteractor(
+    ConfigHelper* configHelper,
+    CommonUtils* commonUtils,
+    SetWallpaperInteractor* setWallpaperInteractor) {
+  this->configHelper = configHelper;
+  this->commonUtils = commonUtils;
+  this->setWallpaperInteractor = setWallpaperInteractor;
 }
 
-void FetchWallpaperInteractor::loadImage() {
-  qDebug() << this->image->downloadedData();
+void FetchWallpaperInteractor::execute() {
+  QString resolution = this->configHelper->get(ConfigEnum::RESOLUTION),
+          tags = this->configHelper->get(ConfigEnum::TAGS);
 
-  QFile file("/home/anupam/wallpaper");
+  this->commonUtils->say("Downloading Wallpaper");
+  this->commonUtils->say("  - Resolution : " + resolution);
+  if (tags != "") {
+    this->commonUtils->say("  - Tags : " + tags);
+  }
+
+  QUrl imageUrl("https://source.unsplash.com/random/" + resolution + "/?" +
+                tags);
+  this->image = new DownloadHelper(imageUrl);
+
+  connect(this->image, SIGNAL(downloaded()), this, SLOT(downloadFinished()));
+}
+
+void FetchWallpaperInteractor::downloadFinished() {
+  if (this->configHelper->get(ConfigEnum::WALLPAPER) != "") {
+    QFile file(this->configHelper->get(ConfigEnum::DIR) + "/" +
+               this->configHelper->get(ConfigEnum::WALLPAPER));
+    file.remove();
+  }
+
+  QString uuid =
+      QUuid::createUuid().toString().replace('{', "").replace('}', "");
+  QFile file(this->configHelper->get(ConfigEnum::DIR) + "/" + uuid);
   file.open(QIODevice::WriteOnly);
   file.write(this->image->downloadedData());
   file.close();
+
+  this->configHelper->setWallpaper(uuid);
+
+  this->setWallpaperInteractor->execute();
 }
