@@ -43,7 +43,7 @@ ArgumentParser::ArgumentParser(QCoreApplication* app,
       "n[M|H]");
   this->saveOption =
       new QCommandLineOption(this->argumentKeys[ArgumentEnum::SAVE],
-                             "Save the provided configuration to file"
+                             "Save the [dir, resolution, tags] to file"
                              "\nWill be used to remember user preference\n");
   this->tagsOption =
       new QCommandLineOption(this->argumentKeys[ArgumentEnum::TAGS],
@@ -85,7 +85,7 @@ bool ArgumentParser::testRefreshRate(QString refreshRate) {
 }
 
 bool ArgumentParser::testTags(QString tags) {
-  QRegularExpression tagsRegex("\\w+,*");
+  QRegularExpression tagsRegex("\\w*,*");
 
   return tagsRegex.match(tags).hasMatch();
 }

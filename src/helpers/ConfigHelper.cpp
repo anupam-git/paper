@@ -3,6 +3,8 @@
 #include "utils/CommonUtils.h"
 
 #include <QDebug>
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
 
 ConfigHelper::ConfigHelper(QCoreApplication* app, QObject* parent)
     : QObject(parent) {
@@ -16,7 +18,8 @@ QString ConfigHelper::get(ConfigEnum key) {
   QString settingsValue = "";
 
   if (this->configKeys.contains(key)) {
-    settingsValue = this->settings->value(this->configKeys[key][0]).toString();
+    settingsValue =
+        this->settings->value(this->configKeys[key][0].toString()).toString();
   }
 
   if (instanceValue != "") {
@@ -64,14 +67,28 @@ QString ConfigHelper::get(ConfigEnum key) {
     return settingsValue;
   } else {
     if (key == ConfigEnum::DIR) {
-      ArgumentParser::testDir(this->configKeys[key][1]);
+      ArgumentParser::testDir(this->configKeys[key][1].toString());
     }
 
     if (this->configKeys.contains(key)) {
-      return this->configKeys[key][1];
+      return this->configKeys[key][1].toString();
     } else {
       return "";
     }
+  }
+}
+
+QStringList ConfigHelper::getRefreshRate() {
+  QString refreshRate = this->get(ConfigEnum::REFRESH_RATE);
+
+  if (refreshRate != "") {
+    QRegularExpression refreshRateRegex("^(\\d+)([MH])$");
+    QRegularExpressionMatch matches =
+        refreshRateRegex.match(this->get(ConfigEnum::REFRESH_RATE));
+
+    return {matches.captured(1), matches.captured(2)};
+  } else {
+    return {};
   }
 }
 
@@ -80,21 +97,22 @@ void ConfigHelper::set(ConfigEnum key, QString value) {
 }
 
 void ConfigHelper::setWallpaper(QString wallpaper) {
-  this->settings->setValue(this->configKeys[ConfigEnum::WALLPAPER][0],
-                           wallpaper);
+  this->settings->setValue(
+      this->configKeys[ConfigEnum::WALLPAPER][0].toString(), wallpaper);
   this->configValues->insert(ConfigEnum::WALLPAPER, wallpaper);
 
   this->settings->sync();
 }
 
 void ConfigHelper::save() {
-  QMapIterator<ConfigEnum, QStringList> iterator(this->configKeys);
+  QMapIterator<ConfigEnum, QVariantList> iterator(this->configKeys);
 
   while (iterator.hasNext()) {
     iterator.next();
     QString val = this->configValues->value(iterator.key());
-    if (val != "") {
-      this->settings->setValue(this->configKeys[iterator.key()][0], val);
+    if (this->configKeys[iterator.key()][2].toBool()) {
+      this->settings->setValue(this->configKeys[iterator.key()][0].toString(),
+                               val);
     }
   }
 }

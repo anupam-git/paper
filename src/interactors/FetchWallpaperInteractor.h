@@ -7,6 +7,8 @@
 #include "helpers/ConfigHelper.h"
 #include "utils/CommonUtils.h"
 
+#include <QTimer>
+
 class FetchWallpaperInteractor : public Interactor {
   Q_OBJECT
 
@@ -21,9 +23,11 @@ class FetchWallpaperInteractor : public Interactor {
   ConfigHelper* configHelper;
   CommonUtils* commonUtils;
   SetWallpaperInteractor* setWallpaperInteractor;
+  QTimer* timer = nullptr;
 
  private slots:
   void downloadFinished();
+  void timerTimeout();
 };
 
 #endif

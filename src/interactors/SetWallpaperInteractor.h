@@ -32,7 +32,9 @@ class SetWallpaperInteractor : public Interactor {
        "'org.kde.image', 'General'];"
        "desktop.writeConfig('Image', 'file://:filepath');"
        "}\""},
-  };
+      {"xfconf-query",
+       "xfconf-query -c xfce4-desktop -p "
+       "/backdrop/screen0/monitor0/workspace0/last-image -s :filepath"}};
 };
 
 #endif

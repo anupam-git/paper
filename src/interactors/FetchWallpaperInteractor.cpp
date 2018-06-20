@@ -33,6 +33,8 @@ void FetchWallpaperInteractor::execute() {
 }
 
 void FetchWallpaperInteractor::downloadFinished() {
+  int interval, rate;
+
   if (this->configHelper->get(ConfigEnum::WALLPAPER) != "") {
     QFile file(this->configHelper->get(ConfigEnum::DIR) + "/" +
                this->configHelper->get(ConfigEnum::WALLPAPER));
@@ -47,6 +49,19 @@ void FetchWallpaperInteractor::downloadFinished() {
   file.close();
 
   this->configHelper->setWallpaper(uuid);
-
   this->setWallpaperInteractor->execute();
+
+  if (this->configHelper->getRefreshRate().size() != 0) {
+    interval = this->configHelper->getRefreshRate()[0].toInt();
+    rate = this->configHelper->getRefreshRate()[1] == "M" ? 60000 : 3600000;
+
+    QTimer::singleShot(interval * rate, this, SLOT(timerTimeout()));
+    this->commonUtils->say("Refreshing wallpaper in " +
+                           this->configHelper->get(ConfigEnum::REFRESH_RATE));
+    this->commonUtils->say("");
+  }
+}
+
+void FetchWallpaperInteractor::timerTimeout() {
+  this->execute();
 }

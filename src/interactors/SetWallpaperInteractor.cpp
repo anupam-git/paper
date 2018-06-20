@@ -41,5 +41,9 @@ void SetWallpaperInteractor::execute() {
     }
   }
 
-  QCoreApplication::quit();
+  this->commonUtils->say("");
+
+  if (this->configHelper->getRefreshRate().size() == 0) {
+    QCoreApplication::quit();
+  }
 }

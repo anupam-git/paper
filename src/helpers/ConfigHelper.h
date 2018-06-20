@@ -7,6 +7,7 @@
 #include <QSettings>
 #include <QMap>
 #include <QString>
+#include <QStringList>
 #include <QStandardPaths>
 
 enum class ConfigEnum {
@@ -22,6 +23,7 @@ class ConfigHelper : public QObject {
  public:
   ConfigHelper(QCoreApplication* app, QObject* parent = nullptr);
   QString get(ConfigEnum key);
+  QStringList getRefreshRate();
   void set(ConfigEnum key, QString value);
   void setWallpaper(QString wallpaper);
   void save();
@@ -30,14 +32,20 @@ class ConfigHelper : public QObject {
   QCoreApplication* app;
   CommonUtils* commonUtils;
   QSettings* settings;
-  QMap<ConfigEnum, QStringList> configKeys = {
+
+  /**
+    * Key : ConfigEnum
+    * Value : [Conf Key, Default Value, Should Save to Conf]
+    */
+  QMap<ConfigEnum, QVariantList> configKeys = {
       {ConfigEnum::DIR,
        {"dir",
-        QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)}},
-      {ConfigEnum::REFRESH_RATE, {"refresh_rate", ""}},
-      {ConfigEnum::RESOLUTION, {"resolution", "1920x1080"}},
-      {ConfigEnum::TAGS, {"tags", ""}},
-      {ConfigEnum::WALLPAPER, {"wallpaper", ""}},
+        QStandardPaths::writableLocation(QStandardPaths::AppDataLocation),
+        true}},
+      {ConfigEnum::REFRESH_RATE, {"refresh_rate", "", false}},
+      {ConfigEnum::RESOLUTION, {"resolution", "1920x1080", true}},
+      {ConfigEnum::TAGS, {"tags", "", true}},
+      {ConfigEnum::WALLPAPER, {"wallpaper", "", false}},
   };
   QMap<ConfigEnum, QString>* configValues;
 };
