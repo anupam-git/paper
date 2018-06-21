@@ -3,6 +3,9 @@
 #include <QCommandLineOption>
 #include <QDir>
 #include <QRegularExpression>
+#include <QDebug>
+#include <QProcess>
+#include <QFile>
 
 ArgumentParser::ArgumentParser(QCoreApplication* app,
                                CommonUtils* commonUtils,
@@ -45,6 +48,12 @@ ArgumentParser::ArgumentParser(QCoreApplication* app,
       new QCommandLineOption(this->argumentKeys[ArgumentEnum::SAVE],
                              "Save the [dir, resolution, tags] to file"
                              "\nWill be used to remember user preference\n");
+  this->startDaemonOption =
+      new QCommandLineOption(this->argumentKeys[ArgumentEnum::START_DAEMON],
+                             "Start as daemon"
+                             "\nTo be used with --refresh-rate option\n");
+  this->stopDaemonOption = new QCommandLineOption(
+      this->argumentKeys[ArgumentEnum::STOP_DAEMON], "Stop the daemon\n");
   this->tagsOption =
       new QCommandLineOption(this->argumentKeys[ArgumentEnum::TAGS],
                              "Provide tags to filter wallpaper search results"
@@ -61,6 +70,8 @@ ArgumentParser::ArgumentParser(QCoreApplication* app,
   this->parser->addOption(*this->resolutionOption);
   this->parser->addOption(*this->refreshRateOption);
   this->parser->addOption(*this->saveOption);
+  this->parser->addOption(*this->startDaemonOption);
+  this->parser->addOption(*this->stopDaemonOption);
   this->parser->addOption(*this->tagsOption);
   this->parser->addOption(*this->versionOption);
   /**** //// END CREATE ARGUMENTS //// ****/
@@ -69,7 +80,21 @@ ArgumentParser::ArgumentParser(QCoreApplication* app,
 int ArgumentParser::process() {
   QStringList arguments = this->app->arguments();
   this->parser->parse(arguments);
+
   return this->parseArguments();
+}
+
+bool ArgumentParser::isStartDaemon() {
+  return this->parser->isSet(*this->startDaemonOption);
+}
+
+bool ArgumentParser::isStopDaemon() {
+  return this->parser->isSet(*this->stopDaemonOption);
+}
+
+bool ArgumentParser::showHelp() {
+  return this->parser->isSet(*this->helpOption) ||
+         this->parser->isSet(*this->versionOption);
 }
 
 bool ArgumentParser::testResolution(QString resolution) {
@@ -164,6 +189,70 @@ int ArgumentParser::parseArguments() {
   }
   if (this->parser->isSet(*this->saveOption)) {
     this->configHelper->save();
+  }
+
+  QFile pidFile(
+      QStandardPaths::writableLocation(QStandardPaths::RuntimeLocation) +
+      "/paper.pid");
+  pidFile.open(QIODevice::ReadOnly);
+
+  if (pidFile.isReadable() && !this->showHelp() && this->isStartDaemon()) {
+    this->commonUtils->sayError(
+        "Daemon is already Running. To stop the running daemon run "
+        "`paper --stop-daemon`.");
+
+    exit(1);
+  } else if (pidFile.isReadable() && !this->showHelp() &&
+             !this->isStopDaemon()) {
+    this->commonUtils->sayWarning(
+        "Daemon is already Running. To stop the running daemon run "
+        "`paper --stop-daemon`.");
+    this->commonUtils->say("");
+  }
+
+  if (this->parser->isSet(*this->startDaemonOption)) {
+    if (!this->parser->isSet(*this->refreshRateOption)) {
+      this->commonUtils->sayError(
+          "Invalid Options. --start-daemon is to be used with --refresh-rate "
+          "option");
+
+      return 1;
+    }
+
+    QStringList arguments = this->app->arguments();
+    QString program = arguments[0];
+    QProcess* process = new QProcess(this);
+    qint64 pid;
+
+    arguments.removeAt(0);
+    arguments.removeAt(arguments.indexOf("--start-daemon"));
+
+    process->setStandardOutputFile(QProcess::nullDevice());
+    process->setStandardErrorFile(QProcess::nullDevice());
+    process->setProgram(program);
+    process->setArguments(arguments);
+    process->setWorkingDirectory(QDir::currentPath());
+    process->startDetached(&pid);
+
+    QFile pidFile(
+        QStandardPaths::writableLocation(QStandardPaths::RuntimeLocation) +
+        "/paper.pid");
+    pidFile.open(QIODevice::WriteOnly);
+    pidFile.write(QVariant(pid).toString().toStdString().c_str());
+
+    this->commonUtils->say("Daemon Initialized");
+  }
+  if (this->parser->isSet(*this->stopDaemonOption)) {
+    QFile pidFile(
+        QStandardPaths::writableLocation(QStandardPaths::RuntimeLocation) +
+        "/paper.pid");
+    pidFile.open(QIODevice::ReadWrite);
+
+    QProcess::startDetached(
+        "kill " + QString::fromStdString(pidFile.readAll().toStdString()));
+    pidFile.remove();
+
+    return 0;
   }
 
   if (this->configHelper->get(ConfigEnum::DIR) == "error" ||

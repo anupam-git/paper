@@ -15,6 +15,12 @@ void CommonUtils::say(QString msg) {
   out << msg << endl;
 }
 
+void CommonUtils::sayWarning(QString err) {
+  qWarning() << "WARNING :" << err;
+
+  this->app->exit(1);
+}
+
 void CommonUtils::sayError(QString err) {
   qWarning() << "ERROR :" << err;
 

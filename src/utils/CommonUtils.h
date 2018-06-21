@@ -11,6 +11,7 @@ class CommonUtils {
  public:
   CommonUtils(QCoreApplication* app);
   void say(QString msg);
+  void sayWarning(QString msg);
   void sayError(QString msg);
 };
 

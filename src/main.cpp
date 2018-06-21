@@ -6,6 +6,7 @@
 #include "helpers/ShellHelper.h"
 
 #include <QCoreApplication>
+#include <QFile>
 
 int main(int argc, char* argv[]) {
   int returnCode;
@@ -26,12 +27,13 @@ int main(int argc, char* argv[]) {
   FetchWallpaperInteractor* fetchWallpaperInteractor =
       new FetchWallpaperInteractor(configHelper, commonUtils,
                                    setWallpaperInteractor);
-
   if ((returnCode = argumentParser->process()) != 0) {
     return returnCode;
+  } else if (argumentParser->isStartDaemon() ||
+             argumentParser->isStopDaemon()) {
+    return 0;
+  } else {
+    fetchWallpaperInteractor->execute();
+    return app->exec();
   }
-
-  fetchWallpaperInteractor->execute();
-
-  return app->exec();
 }
