@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 
 project(
     paper
-    VERSION 2.0.0
+    VERSION 2.0.1
 )
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
