@@ -66,3 +66,5 @@ target_link_libraries(
     Qt5::Network
 )
 
+install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=paper
+Exec=paper
+Icon=paper
+Comment=A CLI Tool to set a random wallpaper from Unsplash.com
+Terminal=true
+Categories=Utility;
